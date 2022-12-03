@@ -8,31 +8,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//@RequestMapping("books")
+@RequestMapping("books")
 public class BookController {
     @Autowired
     BookService bookService;
 
     // One example controller, make the rest by yourself
     @PostMapping("/create-book")
-    public ResponseEntity createBook(@RequestBody (required = true) Book book){
+    public ResponseEntity<Book>createBook(@RequestBody (required = true) Book book){
         bookService.createBook(book);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/get-book-by-id/{id}")
     public ResponseEntity<Book>getBookById(@PathVariable String id){
-        return new ResponseEntity<>(bookService.findBookById(id),HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(bookService.findBookById(id),HttpStatus.FOUND);
     }
 
-    @GetMapping("/books/get-all-books")
-    public ResponseEntity<List<Book>>GetAllBooks(){
-        return new ResponseEntity<>(bookService.findAllBooks(),HttpStatus.OK);
+    @GetMapping("/get-all-books")
+    public ResponseEntity<List<Book>>getAllBooks(){
+        return new ResponseEntity<>(bookService.findAllBooks(),HttpStatus.FOUND);
     }
 
-    @GetMapping("/books/get-books-by-author")
+    @GetMapping("/get-books-by-author")
     public ResponseEntity<List<Book>>getBooksByAutor(@RequestParam String author){
-        return new ResponseEntity<>(bookService.findBooksByAuthor(author), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.findBooksByAuthor(author), HttpStatus.FOUND);
     }
 
     @GetMapping("/get-books-by-genre")
@@ -41,14 +41,14 @@ public class BookController {
     }
 
     @DeleteMapping("/delete-book-by-id/{id}")
-    public ResponseEntity deleteById(@PathVariable String id) {
+    public ResponseEntity<String> deleteBookById(@PathVariable ("id") String id){
         bookService.deleteBookById(id);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity("Success", HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/delete-all-books")
-    public ResponseEntity deletealbooks() {
+    public ResponseEntity<String>deletealbooks() {
         bookService.deleteAllBooks();
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity("Success",HttpStatus.ACCEPTED);
     }
 }

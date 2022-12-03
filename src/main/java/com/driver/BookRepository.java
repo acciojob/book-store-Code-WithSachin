@@ -35,12 +35,10 @@ public class BookRepository {
 
     public void deleteBookById(int id){
         bookDataBase.remove(id);
-        return;
     }
 
     public void deleteAll(){
         bookDataBase.clear();
-        return;
     }
 
     public List<Book> findBooksByAuthor(String author){
